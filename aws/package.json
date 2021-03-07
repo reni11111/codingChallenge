@@ -1,0 +1,30 @@
+{
+  "name": "flickr_search",
+  "version": "1.0.0",
+  "bin": {
+    "app": "bin/app.js"
+  },
+  "scripts": {
+    "build": "echo \"The build step is not required when using JavaScript!\" && exit 0",
+    "deploy": "cdk deploy --all",
+    "test": "mocha --timeout 120000"
+  },
+  "devDependencies": {
+    "mocha": "^8.2.1"
+  },
+  "dependencies": {
+    "@aws-cdk/aws-apigateway": "^1.68.0",
+    "@aws-cdk/aws-lambda": "^1.68.0",
+    "@aws-cdk/core": "^1.68.0",
+    "@middy/core": "^1.4.0",
+    "@middy/http-json-body-parser": "^1.4.0",
+    "@middy/http-partial-response": "^1.4.0",
+    "@middy/validator": "^1.4.0",
+    "aws-cdk": "^1.75.0",
+    "aws-cdk-webpack-lambda-function": "^0.3.3",
+    "axios": "^0.20.0",
+    "chai": "^4.3.3",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12"
+  }
+}

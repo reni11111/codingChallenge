@@ -4,6 +4,7 @@ import Paper from '@material-ui/core/Paper'
 import InputBase from '@material-ui/core/InputBase'
 import IconButton from '@material-ui/core/IconButton'
 import SearchIcon from '@material-ui/icons/Search'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -12,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
     width: '70%',
     backgroundColor: '#434343',
     borderRadius: 0,
+    height: 64
   },
   input: {
     marginLeft: theme.spacing(3),
@@ -25,29 +27,48 @@ const useStyles = makeStyles((theme) => ({
     color: '#000000',
     '&:hover': {
       backgroundColor: '#F1C24A',
-    }
+    },
+    width: 64,
+    height: 64
   },
 }))
 
 export default function Search(props) {
   const classes = useStyles()
-  const { value, setValue, placeholder, onSearchClick } = props
+  const { value, setValue, placeholder, onSearchClick, isLoading } = props
   return (
     <Paper component="form" className={classes.root}>
       <InputBase
         className={classes.input}
         placeholder={placeholder}
         value={value}
-        onChange={(event)=> setValue(event.target.value)}
+        onChange={(event)=> {
+          setValue(event.target.value)
+        }}
+        onKeyPress={(e) => { 
+          // in case someone writes and clicks enter(studies on ux say people don't usually reach the button,
+          // they just write the value and click enter)
+          if (e.key === 'Enter'){
+            e.preventDefault()
+            onSearchClick()
+          } 
+        }}
       />
+
       <IconButton
         color="primary"
         className={classes.iconButton}
         aria-label="directions"
         onClick={onSearchClick}
       >
-        <SearchIcon />
+        {
+          isLoading ?
+            <CircularProgress value={64} />
+            :
+            <SearchIcon/>
+        }
       </IconButton>
+
     </Paper>
   )
 }

@@ -1,19 +1,14 @@
 import axios from 'axios'
-import { extractAuthor } from './../../utils'
+axios.defaults.baseURL = 'https://84672vk6th.execute-api.eu-central-1.amazonaws.com/prod'
 
-export const getAllPosts = async () =>{
-  const allPostsResponse = await axios.get('https://api.flickr.com/services/feeds/photos_public.gne?format=json&nojsoncallback=1')
-  console.log(allPostsResponse.data)
- 
-  const allPosts = allPostsResponse.data.items.map(imgItem=>{
-    let { author, media, title, published, link } = imgItem
-    return {
-      author: extractAuthor(author),
-      imageUrl: media.m,
-      title: title,
-      date: published,
-      flickrUrl: link
+export const getAllPosts = async (searchValue) =>{
+  let newSearchValue = searchValue==='' ? null: searchValue
+
+  const postsResponse = await axios.get('/posts', {
+    params: newSearchValue && {
+      search: newSearchValue
     }
   })
-  return allPosts
+ 
+  return postsResponse.data
 }
