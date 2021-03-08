@@ -1,47 +1,68 @@
-# Full-Stack JavaScript Developer Code Challenge
 
-## How to use this repo
 
-Make sure to install the dependencies using `npm install` beforehand.
+# ImageList - Coding Challange
 
-To start the frontend & backend use `npm start`.
+We will be building this infrastructure.
 
-The frontend uses `create-react-app` as dev tool. All requests to `/api/*` are
-proxied to `http://localhost:3001/` which is the port the backend listens on.
+![infrastructure](https://order-message-queue.s3.eu-central-1.amazonaws.com/crewfire.png)
 
-## Purpose
+Tools used: 
+1. AWS Cloud Development Kit - Cloud infrastructure using Javascript
+2. API Gateway - Managed by AWS
+3. Lambda - Cloud functions
+4. ReactJs
+5. Material UI
 
-- Evaluate your coding abilities and experience
-- Get a feel for how you would solve a problem, what you value, how you'd organize code, stylistic choices
-- Understand how you design a solution
+The whole application is implemented by the principle "Infrastructure as Code", so you just need an Amazon account to run these commands and the whole application would be hosted in your cloud:
 
-## What we'll be looking at
+1. Add to env your amazon access keys
+2. Go to folder aws
+3. run `npm install`  
+4. `npm run deploy`
+You are done :)
 
-- Wether the solution meets requirement and how well it does
-- Overall solution design
-- Coding standard, comments and style
-- Use of source control
-- Testing
+## Cloud Formation Stack
+To implement the solution as Infrastructure as Code I used only 1 stack:
+1. `FlickrStack` 
+ 
+**Stack: `FlickrStack`**
+- Deploys ApiGateway with route `/posts` and method `GET`
+- Deploys 1 lambda: 
+	- `getFlickrPosts` => ApiGateway will redirect the request here, it will see if there is a search parameter or not, and query the Flicker's service for the posts. It is used as a mapper too, so we don't waste user resources in the front end.
 
-## Intructions
+- Lambda is complied using Webpack because of the tree-shaking (small size=> small cold start), for more check the webpack config file.
 
-1. Start by forking this repo [https://github.com/crewfire/coding-challenge-full-stack-js](https://github.com/crewfire/coding-challenge-full-stack-js) to save time on setup (or start from scratch if you wish)
-2. Spend about 1-3 hours working on this (the pre-configured repo should help with that) 
-3. Send us a link to a public GitHub repository with your code  (or share a private one with the username `kiasaki`)
+## Postman Collection
+I already hosted the app in my AWS account, you can find postman collection in [here](https://github.com/reni11111/codingChallenge/blob/master/aws/flicker_search_collection.json).
 
-## Challenge: Flickr feed viewer and search
 
-Write a simple web application that reads data from Flickr's public feeds and displays the images on the page to the user. Please check the Flickr API documentation from the following URL:
+## Automation tests:
+We want to make sure that we don't break the system when we edit code, so it's time for automation testing.
+I have used [mocha](https://www.npmjs.com/package/mocha) framework, tests can be found [here](https://github.com/reni11111/codingChallange/blob/master/aws/test/Test.js).
 
-- Documentations: [https://www.flickr.com/services/feeds/](https://www.flickr.com/services/feeds/)
-- Example Response: [https://api.flickr.com/services/feeds/photos_public.gne?format=json](https://api.flickr.com/services/feeds/photos_public.gne?format=json)
+To run the tests:
+1. go to aws folder
+2. run `npm install`
+3. run `npm run test`
+Enjoy
 
-### Details
+Tests are done only for the API, if u want to know how I would test the Front-End... see you at the meeting.
 
-- Write a web application - backend built using JavaScript/NodeJS/ExpressJS and frontend developed using React.
-- On page load the applications should load the public feed images in either a list or grid view
-- The user should be able to enter a keyword in a search box and click on a search button and the app should show images with the relevant tags
-- Use any other third party library of your choice if needed
-- For extra points, structure the backend as the api endpoint needed was part of a much larger application that required more organization than a one file express app would
 
-You can use any CSS library to make your app look better
+## Front-End
+First I started with the [prototype](https://xd.adobe.com/view/12a60fe4-f1c7-4656-b2ea-854a508f5575-47f5/), then I made some changes as I saw fit (as can be seen at git commits).
+
+I used the most mature UI library [Material UI](https://material-ui.com/), the bones are from there, It seems you can't build a working organism by only using bones, so I added the muscles and everything (lol) and now it's LIVE:  https://imagelist.web.app/.
+
+Even why this is a test project I took care to implement all flows of it. (loading... errors... empty results... responsive...)
+
+
+
+## Extra
+The requirements were a little too easy, so it was hard to stand out... then I read:
+
+*"For extra points, structure the backend as the API endpoint needed as part of a much larger application that required more organization than a one file express app would",* 
+
+I decided to go out of the box and not use the "Old Express"... so I went with the latest Serverless Technologies that can scale to infinity without any DevOps.
+
+*// for more performance a caching layer can be added to API Gateway so it won't need to hit Flickr's system on every call + the response would be in a few milliseconds*
