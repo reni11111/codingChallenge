@@ -33,7 +33,7 @@ To implement the solution as Infrastructure as Code I used only 1 stack:
 - Lambda is complied using Webpack because of the tree-shaking (small size=> small cold start), for more check the webpack config file.
 
 ## Postman Collection
-I already hosted the app in my AWS account, you can find postman collection in [here](https://github.com/reni11111/codingChallange/blob/master/aws/Postman-FlickrSearch).
+I already hosted the app in my AWS account, you can find postman collection in [here](https://github.com/reni11111/codingChallenge/blob/master/aws/flicker_search_collection.json).
 
 
 ## Automation tests:
@@ -60,7 +60,9 @@ Even why this is a test project I took care to implement all flows of it. (loadi
 
 ## Extra
 The requirements were a little too easy, so it was hard to stand out... then I read:
+
 *"For extra points, structure the backend as the API endpoint needed as part of a much larger application that required more organization than a one file express app would",* 
+
 I decided to go out of the box and not use the "Old Express"... so I went with the latest Serverless Technologies that can scale to infinity without any DevOps.
 
 *// for more performance a caching layer can be added to API Gateway so it won't need to hit Flickr's system on every call + the response would be in a few milliseconds*
