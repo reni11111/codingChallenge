@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
 
 import './index.css'
-import Home from './Home'
+import Home from './Home.jsx'
 
 const theme = createMuiTheme({
   typography: {

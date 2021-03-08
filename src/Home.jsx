@@ -1,45 +1,26 @@
 import { useState, useEffect } from 'react'
 import Grid from '@material-ui/core/Grid'
-import { makeStyles } from '@material-ui/core/styles'
 import Alert from '@material-ui/lab/Alert/Alert'
 
+import Title from './Components/Title'
 import Search from './Components/Search'
 import ImageList from './Components/ImageList'
 import { getAllPosts } from './services/Flickr'
-import colors from './assets/Colors'
-
-const useStyles = makeStyles((theme) => ({
-  title: {
-    marginTop: 48,
-    marginBottom: 30,
-    color: colors.yellow,
-    fontSize: 64,
-    fontWeight: 'bold',
-    [theme.breakpoints.down('lg')]: {
-      marginTop: 32,
-      fontSize: 48,
-    },
-    [theme.breakpoints.down('sm')]: {
-      marginTop: 24,
-      marginBottom: 24,
-      fontSize: 32,
-    },
-
-  }
-}))
+import emptyGif from './assets/img/empty.gif'
 
 function App() {
-  const classes = useStyles()
   const [searchValue, setSearchValue] = useState('')
   const [posts, setPosts] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [isError, setIsError] = useState(false)
+  const [isResponseEmpty, setIsResponseEmpty] = useState(false)
 
   async function getPosts(){
     try {
       setIsLoading(true)
       const allPosts = await getAllPosts(searchValue)
       setPosts(allPosts)
+      setIsResponseEmpty(allPosts.length===0)
       setIsLoading(false)
     } catch (err){
       setIsError(true)
@@ -55,7 +36,7 @@ function App() {
 
   return (
     <Grid container direction="column" justify="center" alignItems="center">
-      <div className={classes.title}>Image Engine</div>
+      <Title />
 
       <Search
         placeholder="Search for photos..."
@@ -73,6 +54,15 @@ function App() {
         <Alert variant="filled" severity="error">
           Something went wrong!
         </Alert>
+      }
+
+      {isResponseEmpty &&
+        <>
+          <img src={emptyGif} alt="results empty"/><br />
+          <Alert variant="filled" severity="info">
+            No photos found, please try another keyword!
+          </Alert>
+        </>
       }
     </Grid>
   )
