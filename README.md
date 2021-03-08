@@ -54,7 +54,7 @@ First I started with the [prototype](https://xd.adobe.com/view/12a60fe4-f1c7-465
 
 I used the most mature UI library [Material UI](https://material-ui.com/), the bones are from there, It seems you can't build a working organism by only using bones, so I added the muscles and everything (lol) and now it's LIVE:  https://imagelist.web.app/.
 
-Even why this is a test project I took care to implement all flows of it. (loading... errors... empty results...)
+Even why this is a test project I took care to implement all flows of it. (loading... errors... empty results... responsive...)
 
 
 
