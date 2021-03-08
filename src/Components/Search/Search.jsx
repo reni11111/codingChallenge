@@ -6,36 +6,57 @@ import IconButton from '@material-ui/core/IconButton'
 import SearchIcon from '@material-ui/icons/Search'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
+import colors from './../../assets/Colors'
+
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
-    alignItems: 'center',
     width: '70%',
-    backgroundColor: '#434343',
+    backgroundColor: colors.grey,
     borderRadius: 0,
-    height: 64
+    height: 70,
+    [theme.breakpoints.down('sm')]: {
+      width: '95%',
+      height: 60
+    },
   },
   input: {
     marginLeft: theme.spacing(3),
-    color: 'white',
+    color: colors.white,
     flex: 1,
-    fontSize: 24
+    fontSize: 20,
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 16,
+    },
   },
   iconButton: {
-    backgroundColor: '#F1C24A',
+    backgroundColor: colors.yellow,
     borderRadius: 0,
-    color: '#000000',
+    color: colors.black,
     '&:hover': {
-      backgroundColor: '#F1C24A',
+      backgroundColor: colors.yellow,
     },
-    width: 64,
-    height: 64
+    width: 70,
+    height: 70,
+    [theme.breakpoints.down('sm')]: {
+      width: 60,
+      height: 60,
+    },
   },
+  searchIcon: {
+    width: 45,
+    height: 45,
+    [theme.breakpoints.down('lg')]: {
+      width: 40,
+      height: 40,
+    },
+  }
 }))
 
 export default function Search(props) {
   const classes = useStyles()
   const { value, setValue, placeholder, onSearchClick, isLoading } = props
+
   return (
     <Paper component="form" className={classes.root}>
       <InputBase
@@ -63,9 +84,9 @@ export default function Search(props) {
       >
         {
           isLoading ?
-            <CircularProgress value={64} />
+            <CircularProgress value={70} />
             :
-            <SearchIcon/>
+            <SearchIcon className={classes.searchIcon}/>
         }
       </IconButton>
 

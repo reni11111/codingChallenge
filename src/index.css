@@ -1,5 +1,7 @@
 body {
   margin : 0;
   background: #000000;
-  color: white
+  color: white;
+
+  font-family: Open Sans;
 }
